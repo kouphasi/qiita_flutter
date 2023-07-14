@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/article_row.dart';
 import '../api/index.dart';
 import '../model/article.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArticleShow extends StatefulWidget {
   const ArticleShow({Key? key, required this.id}) : super(key: key);
@@ -23,6 +24,13 @@ class _ArticleShowState extends State<ArticleShow> {
     super.initState();
     Api api = Api(setter: setArticle);
     api.getArticle(widget.id);
+  }
+
+  Future<void> _launchUrl() async {
+    final Uri _url = Uri.parse(article!.url);
+    if (_url != null && !await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 
   @override
@@ -61,6 +69,8 @@ class _ArticleShowState extends State<ArticleShow> {
           TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text("一覧へ戻る")),
+          TextButton(
+              onPressed: () => _launchUrl(), child: const Text("記事へジャンプ")),
           Text(
             article!.body,
             overflow: TextOverflow.clip,

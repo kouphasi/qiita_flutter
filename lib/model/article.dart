@@ -25,6 +25,7 @@ class Article {
 
 class ArticleDetail extends Article {
   final body;
+  final String url;
 
   ArticleDetail(
       {required String title,
@@ -32,7 +33,8 @@ class ArticleDetail extends Article {
       required DateTime createdAt,
       required String author,
       required String itemId,
-      required this.body})
+      required this.body,
+      required this.url})
       : super(
             title: title,
             tags: tags,
@@ -47,6 +49,7 @@ class ArticleDetail extends Article {
         createdAt: DateTime.parse(json["created_at"]),
         author: json["user"]["name"],
         itemId: json["id"],
-        body: json["body"]);
+        body: json["body"],
+        url: json["url"]);
   }
 }
